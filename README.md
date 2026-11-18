@@ -22,6 +22,9 @@ O [índice da documentação](docs/README.md) sugere percursos de leitura e dist
 
 ## 1. O desafio proposto
 
+<details>
+<summary>Expandir 1. O desafio proposto</summary>
+
 O trabalho pede a implementação de uma floresta formada por árvores de decisão oblíquas. Em uma árvore convencional, cada nó testa uma única característica. Em uma árvore oblíqua, o nó testa uma combinação linear de características, permitindo fronteiras inclinadas no espaço dos dados.
 
 Há uma restrição central: **cada nó deve definir seu próprio hiperplano**. Transformar todo o conjunto uma única vez e treinar uma árvore ortogonal sobre os dados transformados não atende ao enunciado. Neste código, cada chamada recursiva calcula média, desvio padrão e SVD usando somente as amostras que chegaram ao nó.
@@ -35,7 +38,13 @@ Além de implementar o algoritmo, o trabalho pede:
 
 É permitido usar bibliotecas para operações como PCA/SVD e cálculo de projeções. A floresta oblíqua deve ser implementada pelo aluno; o enunciado não permite entregar uma implementação pronta de oRF. Veja a [matriz de requisitos](docs/enunciado/README.md) e as imagens originais do enunciado.
 
+
+</details>
+
 ## 2. Da árvore ortogonal à árvore oblíqua
+
+<details>
+<summary>Expandir 2. Da árvore ortogonal à árvore oblíqua</summary>
 
 Considere uma amostra com características $x\in\mathbb{R}^d$. Um nó ortogonal escolhe um atributo $j$ e um limiar $t$:
 
@@ -55,7 +64,13 @@ Em duas dimensões, a fronteira é uma reta; em três, um plano; em dimensões m
 
 **Como ler a figura:** os mesmos pontos aparecem nos dois painéis. As linhas ilustram regras geométricas escolhidas para o exemplo; não são modelos treinados nem uma comparação empírica. Árvores oblíquas podem representar certas fronteiras com menos nós, mas isso não garante maior acurácia em qualquer conjunto de dados.
 
+
+</details>
+
 ## 3. Como o nó oblíquo é aprendido
+
+<details>
+<summary>Expandir 3. Como o nó oblíquo é aprendido</summary>
 
 No código, a regra oblíqua é aplicada sobre características padronizadas **localmente**. Para os dados $X_v$ de um nó $v$, calcula-se:
 
@@ -95,7 +110,13 @@ Um nó com quatro exemplos de cada uma de duas classes tem entropia de 1 bit. Se
 
 **PCA e supervisão têm papéis diferentes:** a SVD propõe direções a partir das características, sem consultar os rótulos. O ganho de informação usa os rótulos para escolher a melhor direção e o melhor limiar entre os candidatos. O [guia de teoria](docs/teoria/README.md) apresenta a derivação, a equivalência do hiperplano nas coordenadas originais e exemplos numéricos.
 
+
+</details>
+
 ## 4. Da árvore à floresta
+
+<details>
+<summary>Expandir 4. Da árvore à floresta</summary>
 
 Para cada uma das $k$ árvores, o código sorteia:
 
@@ -125,7 +146,13 @@ As árvores também param quando o nó é puro, tem menos de dez amostras ou nã
 
 **Uma comparação entre os padrões de `RF()` e `oRF()` muda simultaneamente o número de árvores, a amostragem, os atributos e a profundidade.** O [guia experimental](docs/experimentos/README.md) explica como registrar e controlar essas diferenças.
 
+
+</details>
+
 ## 5. Execução rápida
+
+<details>
+<summary>Expandir 5. Execução rápida</summary>
 
 Execute os comandos a partir da raiz do repositório. O ambiente usado para verificar a documentação foi Python 3.12, com as versões de dependências listadas em [`requirements.txt`](requirements.txt).
 
@@ -148,7 +175,13 @@ python docs/execucao/exemplo_minimo.py
 
 Não são necessários arquivos da competição para esses dois exemplos. Mais detalhes, contrato de entrada e solução de problemas estão no [guia de execução](docs/execucao/README.md).
 
+
+</details>
+
 ## 6. Gerando a submissão para o Kaggle
+
+<details>
+<summary>Expandir 6. Gerando a submissão para o Kaggle</summary>
 
 Obtenha os dados na competição indicada pela disciplina e disponibilize `data/data.npz` com as chaves `X_train`, `y_train` e `X_test`. A URL da competição não é recuperável a partir das imagens recebidas do enunciado e não foi presumida nesta documentação.
 
@@ -162,7 +195,13 @@ O gerador treina `oRF()` em todos os dados rotulados e grava `submissions/submis
 
 O [guia do Kaggle](docs/kaggle/README.md) explica formatos, validação local, prevenção de vazamento de dados e conferência da submissão. As pastas `data/` e `submissions/` já são ignoradas pelo Git.
 
+
+</details>
+
 ## 7. Organização do repositório
+
+<details>
+<summary>Expandir 7. Organização do repositório</summary>
 
 | Caminho | Conteúdo |
 |---|---|
@@ -174,7 +213,13 @@ O [guia do Kaggle](docs/kaggle/README.md) explica formatos, validação local, p
 | [`docs/relatorio/template/`](docs/relatorio/template/README.md) | Fontes e PDF do modelo enviado, preservados como material de referência |
 | [`requirements.txt`](requirements.txt) | Dependências do projeto nas versões verificadas |
 
+
+</details>
+
 ## 8. Limitações e próximos experimentos
+
+<details>
+<summary>Expandir 8. Limitações e próximos experimentos</summary>
 
 A busca por limiares percorre valores distintos e separa amostras em laços Python. Em bases maiores, esse custo pode ser significativo. O código não oferece paralelismo, estimativa out-of-bag, probabilidades, persistência de modelos ou tratamento automático de valores ausentes. As entradas devem ser numéricas, finitas e ter dimensões coerentes.
 
@@ -182,6 +227,15 @@ A escolha das primeiras direções de PCA privilegia variância, que não é nec
 
 Para evoluir o projeto, há espaço para medir a relação entre acurácia e tempo, testar diferentes números de árvores e atributos, investigar outras propostas de hiperplanos por nó e otimizar a busca por limiares. Essas possibilidades são **trabalhos futuros**, não funcionalidades já implementadas.
 
+
+</details>
+
 ## 9. Referências
 
+<details>
+<summary>Expandir 9. Referências</summary>
+
 A documentação parte do código deste repositório e do [enunciado fornecido](docs/enunciado/README.md). As referências acadêmicas sugeridas no trabalho e a documentação oficial das bibliotecas estão reunidas no [guia de teoria](docs/teoria/README.md#referencias). Elas contextualizam o tema; seus resultados não são apresentados como resultados desta implementação.
+
+
+</details>
